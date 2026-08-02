@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>NOpen</title>
-<meta name="apple-mobile-web-app-title" content="NOpen">
+<meta name="apple-mobile-web-app-title" content="nOpen">
 <meta name="robots" content="noindex,nofollow">
 <link rel="apple-touch-icon" href="icon.png">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
@@ -112,15 +112,18 @@
   #picker .links2 button{border:none;background:none;color:#8A7A70;font-size:11px;font-weight:700;text-decoration:underline;cursor:pointer;padding:6px 7px}
 
   /* ===== 액션(키패드) ===== */
-  #action{padding:0;background:var(--bg);padding-bottom:env(safe-area-inset-bottom)}
+  #action{padding:0;background:var(--bg);padding-bottom:0}
   .actbar{display:flex;align-items:center;justify-content:space-between;padding:18px 22px}
   .actbar .x{font-size:26px;color:#3a3a3a;background:none;border:none;cursor:pointer;line-height:1;font-weight:300}
   .actbar .mid2{font-size:14px;color:#8a7a70;font-weight:700}
-  .actbar .tm{font-size:14px;color:#8a7a70;font-weight:700;font-variant-numeric:tabular-nums;min-width:44px;text-align:right}
+  .actbar .tmghost{min-width:44px}
+  .tmbar{padding:0 22px}
+  .tmbar .tm{font-size:17px;color:#8a7a70;font-weight:700;font-variant-numeric:tabular-nums;text-align:left}
   #action .stage{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 26px;
     transform:translateY(-30px)}
   .sum{display:inline-block;text-align:right;position:relative;padding-left:clamp(34px,9vw,46px)}
   .sum .ln{font-size:clamp(40px,11vw,52px);font-weight:300;color:#000;letter-spacing:.04em;line-height:1.15;
+    font-variant-numeric:tabular-nums;
     display:flex;align-items:center;justify-content:flex-end;position:relative}
   .sum .ln .op{position:absolute;left:calc(-1*clamp(34px,9vw,46px))}
   .sum.retry .ln{color:var(--bad)}
@@ -128,6 +131,7 @@
   .sum .op{font-weight:300}
   .sum .rule{height:2px;background:#000;margin-top:14px;margin-left:calc(-1*clamp(34px,9vw,46px));width:calc(100% + clamp(34px,9vw,46px))}
   .sum .ans-num{font-size:clamp(40px,11vw,52px);font-weight:300;color:#000;letter-spacing:.04em;
+    font-variant-numeric:tabular-nums;
     line-height:1.15;margin-top:12px;min-height:1.15em;text-align:right}
   .sum .ans-num.bad{color:var(--bad)}
   .keypad{display:grid;grid-template-columns:repeat(3,1fr);margin-top:auto;margin-bottom:0;
@@ -135,12 +139,14 @@
   .keypad button{touch-action:manipulation;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;
     border:none;border-top:3px solid var(--bg);border-right:3px solid var(--bg);
     background:#fff;font-size:clamp(28px,7.5vw,34px);font-weight:300;color:#000;
-    height:clamp(65.9px,12.36vh,92.7px);cursor:pointer;transition:background .06s;
+    height:clamp(59.3px,11.12vh,83.4px);cursor:pointer;transition:background .06s;
     display:flex;align-items:center;justify-content:center}
   .keypad button:nth-child(3n){border-right:none}
   .keypad button:active{background:var(--press)}
   .keypad .sm{font-size:clamp(24px,6vw,30px);font-weight:400}
-  .keypad .blank{background:var(--bg);border:none;pointer-events:none}
+  .keypad .blank{background:#fff;border:none;border-top:3px solid var(--bg);border-right:3px solid var(--bg);pointer-events:none;
+    font-size:clamp(28px,7.5vw,34px);font-weight:300;color:#000;
+    display:flex;align-items:center;justify-content:center}
 
   /* ===== 플래시(다항덧셈) ===== */
   #flash{padding:0}
@@ -185,8 +191,12 @@
 
   /* ===== 결과 · 완주 ===== */
   #result .resin,#dayend .resin{margin:auto 0;text-align:center}
+  #result .resin{margin:14vh 0 0}
+  #result .vgrow{flex:1}
   .rg{font-size:64px;font-weight:900;color:var(--ink)}
+  .rg2{font-size:34px;font-weight:900;color:var(--ink);margin-top:4px}
   .rt2{font-size:18px;font-weight:300;color:var(--ink);margin-top:10px}
+  .rt2.rt2big{font-size:22px;font-weight:700;margin-top:16px}
   .rd{font-size:13px;color:var(--ink-soft);margin-top:8px;line-height:1.8;font-weight:600}
   .rd b{color:var(--ink);font-weight:900;border-bottom:3px solid var(--yellow)}
   #result{overflow:hidden}
@@ -203,11 +213,12 @@
     80%{transform:translateX(-50%) translateY(-2%) scale(1.01)}
     100%{opacity:1;transform:translateX(-50%) translateY(0%) scale(1)}
   }
-  #result .char{bottom:185px;width:56%;max-width:270px}
+  #result .char{top:47%;bottom:auto;width:56%;max-width:270px}
+  #dayend .char{top:34%;bottom:auto}
   #dayend{overflow:hidden}
   #dayend .resin{position:absolute;top:22%;left:20px;right:20px;transform:translateY(-50%);margin:0}
   #dayend canvas#cf{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:20}
-  #dayend .homebtn{position:absolute;left:20px;right:20px;bottom:calc(18px + env(safe-area-inset-bottom));z-index:40}
+  #dayend .homebtn{position:absolute;left:20px;right:20px;width:auto;bottom:calc(18px + env(safe-area-inset-bottom));z-index:40}
 
   /* ===== 오답장 ===== */
   .wrow{border-bottom:1px solid var(--line);padding:12px 2px}
@@ -278,7 +289,7 @@
   <section id="home" class="screen">
     <div class="top">
       <div class="brand">NOpen</div>
-      <span class="vmark">v0.51</span>
+      <span class="vmark">v0.52</span>
     </div>
     <div class="card">
       <div class="calhead">
@@ -328,6 +339,9 @@
     <div class="actbar">
       <button class="x" id="actClose">✕</button>
       <div class="mid2" id="actProg"></div>
+      <div class="tmghost"></div>
+    </div>
+    <div class="tmbar">
       <div class="tm" id="actTime"></div>
     </div>
     <div class="stage">
@@ -337,7 +351,7 @@
       <button>7</button><button>8</button><button>9</button>
       <button>4</button><button>5</button><button>6</button>
       <button>1</button><button>2</button><button>3</button>
-      <span class="blank"></span><button>0</button><button class="sm" data-k="DEL">BS</button>
+      <span class="blank">C</span><button>0</button><button class="sm" data-k="DEL">BS</button>
     </div>
   </section>
 
@@ -359,7 +373,7 @@
       <button>7</button><button>8</button><button>9</button>
       <button>4</button><button>5</button><button>6</button>
       <button>1</button><button>2</button><button>3</button>
-      <span class="blank"></span><button>0</button><button class="sm" data-k="DEL">DEL</button>
+      <span class="blank">C</span><button>0</button><button class="sm" data-k="DEL">DEL</button>
     </div>
     <button class="submit" id="flashSubmit">답변 제출</button>
   </section>
@@ -398,6 +412,7 @@
   <section id="result" class="screen hidden">
     <div class="hdr2"><span></span><h1>세트 결과</h1><span></span></div>
     <div class="resin" id="resin"></div>
+    <div class="vgrow"></div>
     <button class="cta" id="resNext" style="margin-top:12px">다음 세트</button>
     <button class="cta sub" id="resSets">세트 목록</button>
     <img class="char" id="resChar" alt="">
@@ -409,7 +424,7 @@
     <canvas id="cf"></canvas>
     <img class="char" id="dayChar" alt="">
     <button class="cta homebtn" id="dayendHome">홈</button>
-    <button id="dayendCsv" style="position:absolute;left:50%;transform:translateX(-50%);bottom:calc(96px + env(safe-area-inset-bottom));z-index:40;border:none;background:none;color:#8A7A70;font-size:12px;font-weight:700;text-decoration:underline;cursor:pointer;padding:6px">오늘 결과 CSV</button>
+    <button id="dayendCsv" style="position:absolute;left:50%;transform:translateX(-50%);bottom:calc(96px + env(safe-area-inset-bottom));z-index:40;border:none;background:none;color:#8A7A70;font-size:14px;font-weight:700;text-decoration:underline;cursor:pointer;padding:6px">오늘 결과 CSV</button>
   </section>
 
   <!-- 학습결과 (그래프) -->
@@ -479,7 +494,7 @@ if(typeof window!=='undefined')window.onerror=function(msg,url,line,col){
   if(!b){b=document.createElement('div');b.id='errbanner';
     b.style.cssText='position:fixed;top:0;left:0;right:0;z-index:9999;background:#C0392B;color:#fff;font-size:11px;padding:6px 10px;font-weight:700;white-space:pre-wrap;';
     document.body.appendChild(b);}
-  b.textContent='v0.51 오류: '+msg+' @'+line+':'+col;
+  b.textContent='v0.52 오류: '+msg+' @'+line+':'+col;
   return false;
 };
 
@@ -1340,8 +1355,9 @@ function showDayend(w,lastG){
     var rec=d.done[keyOf(w.no,w.sets[i].no)];
     if(rec&&rec.t){tot+=rec.t;n++;}
   }
-  $('dayendIn').innerHTML='<div class="rg">WOD '+w.no+' 완주!</div>'
-    +'<div class="rt2">'+w.sets.length+'세트 · 총 '+fmtSec(tot)+'</div>';
+  $('dayendIn').innerHTML='<div class="rg">WOD '+w.no+'</div>'
+    +'<div class="rg2">완료</div>'
+    +'<div class="rt2 rt2big">'+w.sets.length+'세트 · 총 '+fmtSec(tot)+'</div>';
   show('dayend');
   var ch=$('dayChar');
   ch.src=IMG_WELL; /* 잘했어!!! */
