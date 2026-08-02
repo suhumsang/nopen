@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>NOpen</title>
+<title>nOpen</title>
 <meta name="apple-mobile-web-app-title" content="nOpen">
 <meta name="robots" content="noindex,nofollow">
 <link rel="apple-touch-icon" href="icon.png">
@@ -112,7 +112,7 @@
   #picker .links2 button{border:none;background:none;color:#8A7A70;font-size:11px;font-weight:700;text-decoration:underline;cursor:pointer;padding:6px 7px}
 
   /* ===== 액션(키패드) ===== */
-  #action{padding:0;background:var(--bg);padding-bottom:0}
+  #action{padding:0;background:var(--bg);padding-bottom:clamp(23.7px,4.45vh,33.4px)}
   .actbar{display:flex;align-items:center;justify-content:space-between;padding:18px 22px}
   .actbar .x{font-size:26px;color:#3a3a3a;background:none;border:none;cursor:pointer;line-height:1;font-weight:300}
   .actbar .mid2{font-size:14px;color:#8a7a70;font-weight:700}
@@ -144,9 +144,7 @@
   .keypad button:nth-child(3n){border-right:none}
   .keypad button:active{background:var(--press)}
   .keypad .sm{font-size:clamp(24px,6vw,30px);font-weight:400}
-  .keypad .blank{background:#fff;border:none;border-top:3px solid var(--bg);border-right:3px solid var(--bg);pointer-events:none;
-    font-size:clamp(28px,7.5vw,34px);font-weight:300;color:#000;
-    display:flex;align-items:center;justify-content:center}
+  .keypad .blank{pointer-events:none}
 
   /* ===== 플래시(다항덧셈) ===== */
   #flash{padding:0}
@@ -288,8 +286,8 @@
   <!-- 홈 (달력형 원본 복원) -->
   <section id="home" class="screen">
     <div class="top">
-      <div class="brand">NOpen</div>
-      <span class="vmark">v0.52</span>
+      <div class="brand">nOpen</div>
+      <span class="vmark">v0.53</span>
     </div>
     <div class="card">
       <div class="calhead">
@@ -351,7 +349,7 @@
       <button>7</button><button>8</button><button>9</button>
       <button>4</button><button>5</button><button>6</button>
       <button>1</button><button>2</button><button>3</button>
-      <span class="blank">C</span><button>0</button><button class="sm" data-k="DEL">BS</button>
+      <button class="sm blank" tabindex="-1" aria-hidden="true">C</button><button>0</button><button class="sm" data-k="DEL">BS</button>
     </div>
   </section>
 
@@ -373,7 +371,7 @@
       <button>7</button><button>8</button><button>9</button>
       <button>4</button><button>5</button><button>6</button>
       <button>1</button><button>2</button><button>3</button>
-      <span class="blank">C</span><button>0</button><button class="sm" data-k="DEL">DEL</button>
+      <button class="sm blank" tabindex="-1" aria-hidden="true">C</button><button>0</button><button class="sm" data-k="DEL">DEL</button>
     </div>
     <button class="submit" id="flashSubmit">답변 제출</button>
   </section>
@@ -494,7 +492,7 @@ if(typeof window!=='undefined')window.onerror=function(msg,url,line,col){
   if(!b){b=document.createElement('div');b.id='errbanner';
     b.style.cssText='position:fixed;top:0;left:0;right:0;z-index:9999;background:#C0392B;color:#fff;font-size:11px;padding:6px 10px;font-weight:700;white-space:pre-wrap;';
     document.body.appendChild(b);}
-  b.textContent='v0.52 오류: '+msg+' @'+line+':'+col;
+  b.textContent='v0.53 오류: '+msg+' @'+line+':'+col;
   return false;
 };
 
@@ -922,7 +920,7 @@ function ts(){
   function z(n){return (n<10?'0':'')+n;}
   return ''+d.getFullYear()+z(d.getMonth()+1)+z(d.getDate())+'_'+z(d.getHours())+z(d.getMinutes())+z(d.getSeconds());
 }
-/* 일일 결과 CSV — 파일명: 년월일-카파-NOpen.csv */
+/* 일일 결과 CSV — 파일명: 년월일-카파-nOpen.csv */
 function todayStr(){
   var d=new Date();
   return ''+d.getFullYear()+('0'+(d.getMonth()+1)).slice(-2)+('0'+d.getDate()).slice(-2);
@@ -946,7 +944,7 @@ function exportTodayCsv(){
   var blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
   var a=document.createElement('a');
   a.href=URL.createObjectURL(blob);
-  a.download=today.slice(2)+'-카파-NOpen.csv';
+  a.download=today.slice(2)+'-카파-nOpen.csv';
   document.body.appendChild(a);a.click();
   setTimeout(function(){URL.revokeObjectURL(a.href);a.remove();},1000);
 }
@@ -970,7 +968,7 @@ $('bkFile').addEventListener('change',function(){
   rd.onload=function(){
     var d;
     try{d=JSON.parse(rd.result);}catch(e){alert('백업 파일을 읽을 수 없어 (JSON 아님)');return;}
-    if(!d||typeof d!=='object'||!d.done||!d.wrongLog){alert('NOpen 백업 형식이 아니야');return;}
+    if(!d||typeof d!=='object'||!d.done||!d.wrongLog){alert('nOpen 백업 형식이 아니야');return;}
     if(!confirm('현재 기록을 백업 파일 내용으로 교체할까? 되돌릴 수 없어.'))return;
     DBS.replace(d);
     location.reload();
@@ -1744,7 +1742,7 @@ $('statPdf').addEventListener('click',function(){
   var d=DBS.get(),snap=lastSnap();
   buildComboCuts();
   var now=new Date();
-  var html='<h1>NOpen 통계</h1><div class="pmeta">출력: '+isoLoc(now)+'</div>';
+  var html='<h1>nOpen 통계</h1><div class="pmeta">출력: '+isoLoc(now)+'</div>';
   html+='<table><tr><th>월</th><th>세트</th><th>질문</th><th>맞다</th><th>정확도</th><th>플레이타임</th></tr>';
   for(var k=0;k<6;k++){
     var y=now.getFullYear(),m=now.getMonth()-k;
@@ -1828,7 +1826,7 @@ $('wrongPdf').addEventListener('click',function(){
       +'<td>'+(e.at?e.at.slice(0,10):'')+'</td></tr>';
   }
   var now=new Date();
-  $('printArea').innerHTML='<h1>NOpen 오답 노트</h1>'
+  $('printArea').innerHTML='<h1>nOpen 오답 노트</h1>'
     +'<div class="pmeta">출력: '+now.getFullYear()+'-'+('0'+(now.getMonth()+1)).slice(-2)+'-'+('0'+now.getDate()).slice(-2)
     +' · 총 '+(rows?d.wrongLog.filter(function(e){return findProb(e);}).length:0)+'문제</div>'
     +'<table><tr><th>문제</th><th>내 답</th><th>틀림</th><th>위치</th><th>날짜</th></tr>'+rows+'</table>';
