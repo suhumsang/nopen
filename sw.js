@@ -1,5 +1,5 @@
 /* nOpen — service worker. 릴리스마다 캐시명 범프 필수 */
-var CACHE = 'nopen-v053';
+var CACHE = 'nopen-v054';
 var ASSETS = ['./', './index.html', './icon.png'];
 
 self.addEventListener('install', function (e) {
